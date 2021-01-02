@@ -207,9 +207,9 @@ Health_Out %>%
   theme_elegante() +
   xlab("Country") +
   ylab("% of current health expenditure") +
-  labs(title = paste("Percentage of household income invested in Health"), 
+  labs(title = paste("Percentage of Household Income Invested in Health"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
-       subtitle = paste0("2018")) +
+       subtitle = paste0("Year 2018")) +
   geom_text(aes(label = Health_Out$`Out of pocket%ofcurrent2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
@@ -255,7 +255,7 @@ Health_GDP %>%
   ylab("% of GDP") +
   labs(title = paste("Current health expenditure (% of GDP)"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
-       subtitle = paste0("2018")) +
+       subtitle = paste0("Year 2018")) +
   geom_text(aes(label = Health_GDP$`Current%ofGDP2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
