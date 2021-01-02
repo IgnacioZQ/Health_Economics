@@ -1,9 +1,9 @@
-### Library
+#### Library ----
 library(readxl)
 library(dplyr)
 library(tidyverse)
 
-### Theme
+#### Theme ----
 theme_elegante <- function(base_size = 10,
                            base_family = "Raleway"
 )
@@ -76,13 +76,12 @@ theme_elegante <- function(base_size = 10,
   ret
 }
 
-### General Data
+#### General Data ----
 
-Health <- read_excel("C:/Users/ignacio/Desktop/Personal/Data Personal/Health_2018/Health_2.xlsx")
+Health <- read_excel("Health_2.xlsx")
 
-### Start
-
-### Physicians (per 1,000 people)
+#### Start ----
+# Physicians (per 1,000 people) ----
 
 # Long definition
 # Physicians include generalist and specialist medical practitioners.
@@ -103,9 +102,6 @@ Health_Phys <- Health %>%
              "Russian Federation", "Denmark", "Hungary")) %>%
   arrange(`Physiciansper1,000people2013-18`) # Reorder the data
 
-Health_Phys_Ch <- Health_Phys %>%
-  filter(Health_Phys$Country == "Chile") # Assignation of color in Graphic
-
 Health_Phys$`Physiciansper1,000people2013-18` <- as.numeric(as.character(Health_Phys$`Physiciansper1,000people2013-18`)) #Transform column character to numeric
 
 # Physicians Graphic
@@ -125,13 +121,10 @@ Health_Phys %>%
     geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
   scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
-  annotate("text", x=grep("Chile", x = Health_Phys$Country), y = Health_Phys$`Physiciansper1,000people2013-18`[which(x = Health_Phys$Country == "Chile")]*1.2, 
-           label="Chile is above Latin America, but below Europe & Central Asia", 
-           color="dodgerblue3", size=3.7 , angle=0, fontface="bold", hjust= 0.06) +
   theme(axis.title.y=element_blank(),
         legend.position = "none")
 
-### Nurses and midwives (per 1,000 people)
+# Nurses and midwives (per 1,000 people) ----
 
 # Long definition
 # Nurses and midwives include professional nurses, professional midwives, auxiliary nurses, auxiliary midwives, enrolled nurses, enrolled midwives and other associated personnel,
@@ -175,7 +168,7 @@ Health_Nur %>%
   theme(axis.title.y=element_blank(),
         legend.position = "none")
 
-### Out of pocket
+# Out of pocket ----
 
 # expenditure (% of current health expenditure)
 # Long definition
@@ -223,7 +216,7 @@ Health_Out %>%
         legend.position = "none") +
   scale_y_continuous(breaks = c(10, 20, 30, 40, 50, 60, 70))
 
-### Current health expenditure (% of GDP)
+# Current health expenditure (% of GDP) ----
 
 # Long definition
 # Level of current health expenditure expressed as a percentage of GDP.
