@@ -109,17 +109,15 @@ Health_Phys$`Physiciansper1,000people2013-18` <- as.numeric(as.character(Health_
 Health_Phys %>%
   mutate(Country = fct_reorder(Country, `Physiciansper1,000people2013-18`)) %>%
   ggplot(aes(x = Country, y = `Physiciansper1,000people2013-18`)) +
-  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Physiciansper1,000people2013-18`), color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 1.5, 0.8)) +
-  geom_point(color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 4.2, 2.5)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Physiciansper1,000people2013-18`), color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 1.1, 0.8)) +
+  geom_point(color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 3.4, 2)) +
   coord_flip() +
   theme_elegante() +
-  xlab("Country") +
   ylab("Physicians (per 1,000 people)") +
-  labs(title = paste("What is the relationship between doctors and countries worldwide?"), 
+  labs(title = paste("Physicians every 1,000 people by country"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
        subtitle = paste0("Situation of Chile and the world\n", "2013 - 2018" )) +
-    geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
-  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
+    geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
         legend.position = "none")
@@ -153,16 +151,15 @@ Health_Nur$`Nursesandmidwivesper1,000people` <- as.numeric(as.character(Health_N
 Health_Nur %>%
   mutate(Country = fct_reorder(Country, `Nursesandmidwivesper1,000people`)) %>%
   ggplot(aes(x = Country, y = `Nursesandmidwivesper1,000people`)) +
-  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Nursesandmidwivesper1,000people`), color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 1.5, 0.8)) +
-  geom_point(color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 4.2, 2.5)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Nursesandmidwivesper1,000people`), color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 1.1, 0.8)) +
+  geom_point(color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 3.4, 2)) +
   coord_flip() +
   theme_elegante() +
-  xlab("Country") +
   ylab("Nurses and midwives (per 1,000 people)") +
-  labs(title = paste("What is the relationship between Nurses and midwives and countries worldwide?"), 
+  labs(title = paste("Physicians every 1,000 people by country"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
        subtitle = paste0("Situation of Chile and the world\n", "2013 - 2018" )) +
-  geom_text(aes(label = Health_Nur$`Nursesandmidwivesper1,000people`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+  geom_text(aes(label = Health_Nur$`Nursesandmidwivesper1,000people`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
   scale_y_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
@@ -201,16 +198,15 @@ Health_Out$`Out of pocket%ofcurrent2018` <- as.numeric(as.character(Health_Out$`
 Health_Out %>%
   mutate(Country = fct_reorder(Country, `Out of pocket%ofcurrent2018`)) %>%
   ggplot(aes(x = Country, y = `Out of pocket%ofcurrent2018`)) +
-  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Out of pocket%ofcurrent2018`), color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 1.5, 0.8)) +
-  geom_point(color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 4.2, 2.5)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Out of pocket%ofcurrent2018`), color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 1.1, 0.8)) +
+  geom_point(color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 3.4, 2)) +
   coord_flip() +
   theme_elegante() +
-  xlab("Country") +
   ylab("% of current health expenditure") +
   labs(title = paste("Percentage of Household Income Invested in Health"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
-       subtitle = paste0("Year 2018")) +
-  geom_text(aes(label = Health_Out$`Out of pocket%ofcurrent2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+       subtitle = paste0("Situation of Chile and the world\n", "2018" )) +
+  geom_text(aes(label = Health_Out$`Out of pocket%ofcurrent2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
         legend.position = "none") +
@@ -247,16 +243,15 @@ Health_GDP$`Current%ofGDP2018` <- as.numeric(as.character(Health_GDP$`Current%of
 Health_GDP %>%
   mutate(Country = fct_reorder(Country, `Current%ofGDP2018`)) %>%
   ggplot(aes(x = Country, y = `Current%ofGDP2018`)) +
-  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Current%ofGDP2018`), color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 1.5, 0.8)) +
-  geom_point(color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 4.2, 2.5)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Current%ofGDP2018`), color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 1.1, 0.8)) +
+  geom_point(color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 3.4, 2)) +
   coord_flip() +
   theme_elegante() +
-  xlab("Country") +
   ylab("% of GDP") +
   labs(title = paste("Current health expenditure (% of GDP)"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
-       subtitle = paste0("Year 2018")) +
-  geom_text(aes(label = Health_GDP$`Current%ofGDP2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+       subtitle = paste0("Situation of Chile and the world\n", "2018" )) +
+  geom_text(aes(label = Health_GDP$`Current%ofGDP2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
         legend.position = "none") +
