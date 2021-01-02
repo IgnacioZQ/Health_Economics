@@ -1,0 +1,270 @@
+### Library
+library(readxl)
+library(dplyr)
+library(tidyverse)
+
+### Theme
+theme_elegante <- function(base_size = 10,
+                           base_family = "Raleway"
+)
+{
+  color.background = "#FFFFFF" # Chart Background
+  color.grid.major = "#D9D9D9" # Chart Gridlines
+  color.axis.text = "#666666" # 
+  color.axis.title = "#666666" # 
+  color.title = "#666666"
+  color.subtitle = "#666666"
+  strip.background.color = '#9999CC'
+  
+  ret <-
+    theme_bw(base_size=base_size) +
+    
+    # Set the entire chart region to a light gray color
+    theme(panel.background=element_rect(fill=color.background, color=color.background)) +
+    theme(plot.background=element_rect(fill=color.background, color=color.background)) +
+    theme(panel.border=element_rect(color=color.background)) +
+    
+    # Format the grid
+    theme(panel.grid.major=element_line(color=color.grid.major,size=.55, linetype="dotted")) +
+    theme(panel.grid.minor=element_line(color=color.grid.major,size=.55, linetype="dotted")) +
+    theme(axis.ticks=element_blank()) +
+    
+    # Format the legend, but hide by default
+    theme(legend.position="none") +
+    theme(legend.background = element_rect(fill=color.background)) +
+    theme(legend.text = element_text(size=base_size-3,color=color.axis.title, family = base_family)) +
+    
+    theme(strip.text.x = element_text(size=base_size,color=color.background, family = base_family)) +
+    theme(strip.text.y = element_text(size=base_size,color=color.background, family = base_family)) +
+    #theme(strip.background = element_rect(fill=strip.background.color, linetype="blank")) +
+    theme(strip.background = element_rect(fill = "grey70", colour = NA)) +
+    # theme(panel.border= element_rect(fill = NA, colour = "grey70", size = rel(1)))+
+    # Set title and axis labels, and format these and tick marks
+    theme(plot.title=element_text(color=color.title, 
+                                  size=20, 
+                                  vjust=1.25, 
+                                  family=base_family, 
+                                  hjust = 0.5
+    )) +
+    
+    theme(plot.subtitle=element_text(color=color.subtitle, size=base_size+2, family = base_family,  hjust = 0.5))  +
+    
+    theme(axis.text.x=element_text(size=base_size,color=color.axis.text, family = base_family)) +
+    theme(axis.text.y=element_text(size=base_size,color=color.axis.text, family = base_family)) +
+    theme(text=element_text(size=base_size, color=color.axis.text, family = base_family)) +
+    
+    theme(axis.title.x=element_text(size=base_size+2,color=color.axis.title, vjust=0, family = base_family)) +
+    theme(axis.title.y=element_text(size=base_size+2,color=color.axis.title, vjust=1.25, family = base_family)) +
+    theme(plot.caption=element_text(size=base_size-2,color=color.axis.title, vjust=1.25, family = base_family)) +
+    
+    # Legend  
+    theme(legend.text=element_text(size=base_size,color=color.axis.text, family = base_family)) +
+    theme(legend.title=element_text(size=base_size,color=color.axis.text, family = base_family)) +
+    theme(legend.key=element_rect(colour = color.background, fill = color.background)) +
+    theme(legend.position="bottom", 
+          legend.box = "horizontal", 
+          legend.title = element_blank(),
+          legend.key.width = unit(.75, "cm"),
+          legend.key.height = unit(.75, "cm"),
+          legend.spacing.x = unit(.25, 'cm'),
+          legend.spacing.y = unit(.25, 'cm'),
+          legend.margin = margin(t=0, r=0, b=0, l=0, unit="cm")) +
+    
+    # Plot margins
+    theme(plot.margin = unit(c(.5, .5, .5, .5), "cm"))
+  
+  ret
+}
+
+### General Data
+
+Health <- read_excel("C:/Users/ignacio/Desktop/Personal/Data Personal/Health_2018/Health_2.xlsx")
+
+### Start
+
+### Physicians (per 1,000 people)
+
+# Long definition
+# Physicians include generalist and specialist medical practitioners.
+# Source
+# World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.
+
+# Physicians Data
+Health_Phys <- Health %>%
+  select(Country, `Physiciansper1,000people2013-18`) %>%
+  filter(`Physiciansper1,000people2013-18` != "..", Country %in%
+           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
+             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
+             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
+             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
+             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India", "Venezuela, RB",
+             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
+             "Russian Federation", "Denmark", "Hungary")) %>%
+  arrange(`Physiciansper1,000people2013-18`) # Reorder the data
+
+Health_Phys_Ch <- Health_Phys %>%
+  filter(Health_Phys$Country == "Chile") # Assignation of color in Graphic
+
+Health_Phys$`Physiciansper1,000people2013-18` <- as.numeric(as.character(Health_Phys$`Physiciansper1,000people2013-18`)) #Transform column character to numeric
+
+# Physicians Graphic
+
+Health_Phys %>%
+  mutate(Country = fct_reorder(Country, `Physiciansper1,000people2013-18`)) %>%
+  ggplot(aes(x = Country, y = `Physiciansper1,000people2013-18`)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Physiciansper1,000people2013-18`), color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 1.5, 0.8)) +
+  geom_point(color = ifelse(Health_Phys$Country %in% c("Chile"), "dodgerblue3", "gray58"), size = ifelse(Health_Phys$Country %in% c("Chile"), 4.2, 2.5)) +
+  coord_flip() +
+  theme_elegante() +
+  xlab("Country") +
+  ylab("Physicians (per 1,000 people)") +
+  labs(title = paste("What is the relationship between doctors and countries worldwide?"), 
+       caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
+       subtitle = paste0("Situation of Chile and the world\n", "2013 - 2018" )) +
+    geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)) +
+  theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
+  annotate("text", x=grep("Chile", x = Health_Phys$Country), y = Health_Phys$`Physiciansper1,000people2013-18`[which(x = Health_Phys$Country == "Chile")]*1.2, 
+           label="Chile is above Latin America, but below Europe & Central Asia", 
+           color="dodgerblue3", size=3.7 , angle=0, fontface="bold", hjust= 0.06) +
+  theme(axis.title.y=element_blank(),
+        legend.position = "none")
+
+### Nurses and midwives (per 1,000 people)
+
+# Long definition
+# Nurses and midwives include professional nurses, professional midwives, auxiliary nurses, auxiliary midwives, enrolled nurses, enrolled midwives and other associated personnel,
+# such as dental nurses and primary care nurses.
+# Source
+# World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.
+
+# Nurses and midwives Data
+Health_Nur <- Health %>%
+  select(Country, `Nursesandmidwivesper1,000people`) %>%
+  filter(`Nursesandmidwivesper1,000people`!= "..", Country %in%
+           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
+             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
+             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
+             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
+             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
+             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
+             "Russian Federation", "Denmark", "Hungary")) %>%
+  arrange(`Nursesandmidwivesper1,000people`) # Reorder the data
+
+Health_Nur$`Nursesandmidwivesper1,000people` <- as.numeric(as.character(Health_Nur$`Nursesandmidwivesper1,000people`)) #Transform column character to numeric
+
+# Nurses and midwives Graphic
+
+Health_Nur %>%
+  mutate(Country = fct_reorder(Country, `Nursesandmidwivesper1,000people`)) %>%
+  ggplot(aes(x = Country, y = `Nursesandmidwivesper1,000people`)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Nursesandmidwivesper1,000people`), color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 1.5, 0.8)) +
+  geom_point(color = ifelse(Health_Nur$Country %in% c("Chile"), "brown3", "gray58"), size = ifelse(Health_Nur$Country %in% c("Chile"), 4.2, 2.5)) +
+  coord_flip() +
+  theme_elegante() +
+  xlab("Country") +
+  ylab("Nurses and midwives (per 1,000 people)") +
+  labs(title = paste("What is the relationship between Nurses and midwives and countries worldwide?"), 
+       caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
+       subtitle = paste0("Situation of Chile and the world\n", "2013 - 2018" )) +
+  geom_text(aes(label = Health_Nur$`Nursesandmidwivesper1,000people`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+  scale_y_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)) +
+  theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
+  theme(axis.title.y=element_blank(),
+        legend.position = "none")
+
+### Out of pocket
+
+# expenditure (% of current health expenditure)
+# Long definition
+# Share of out of pocket
+# payments of total current health expenditures. Out of pocket
+# payments are spending on health directly out of pocket
+# by households.
+# Source
+# World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.
+
+# Out of pocket Data
+
+Health_Out <- Health %>%
+  select(Country, `Out of pocket%ofcurrent2018`) %>%
+  filter(`Out of pocket%ofcurrent2018`!= "..", Country %in%
+           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
+             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
+             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
+             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
+             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
+             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
+             "Russian Federation", "Denmark", "Hungary")) %>%
+  arrange(`Out of pocket%ofcurrent2018`) # Reorder the data
+
+Health_Out$`Out of pocket%ofcurrent2018` <- as.numeric(as.character(Health_Out$`Out of pocket%ofcurrent2018`)) #Transform column character to numeric
+
+# Out of pocket Graphic
+
+Health_Out %>%
+  mutate(Country = fct_reorder(Country, `Out of pocket%ofcurrent2018`)) %>%
+  ggplot(aes(x = Country, y = `Out of pocket%ofcurrent2018`)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Out of pocket%ofcurrent2018`), color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 1.5, 0.8)) +
+  geom_point(color = ifelse(Health_Out$Country %in% c("Chile"), "springgreen4", "gray58"), size = ifelse(Health_Out$Country %in% c("Chile"), 4.2, 2.5)) +
+  coord_flip() +
+  theme_elegante() +
+  xlab("Country") +
+  ylab("% of current health expenditure") +
+  labs(title = paste("Percentage of household income invested in Health"), 
+       caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
+       subtitle = paste0("2018")) +
+  geom_text(aes(label = Health_Out$`Out of pocket%ofcurrent2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+  theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
+  theme(axis.title.y=element_blank(),
+        legend.position = "none") +
+  scale_y_continuous(breaks = c(10, 20, 30, 40, 50, 60, 70))
+
+### Current health expenditure (% of GDP)
+
+# Long definition
+# Level of current health expenditure expressed as a percentage of GDP.
+# Estimates of current health expenditures include healthcare goods and services
+# consumed during each
+# year. This indicator does not include capital health expenditures such as
+# buildings, machinery, IT and stocks of vaccines for emergency or outbreaks.
+
+# Current health expenditure (% of GDP) Data
+
+Health_GDP <- Health %>%
+  select(Country, `Current%ofGDP2018`) %>%
+  filter(`Current%ofGDP2018`!= "..", Country %in%
+           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
+             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
+             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
+             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
+             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
+             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
+             "Russian Federation", "Denmark", "Hungary")) %>%
+  arrange(`Current%ofGDP2018`) # Reorder the data
+
+Health_GDP$`Current%ofGDP2018` <- as.numeric(as.character(Health_GDP$`Current%ofGDP2018`)) #Transform column character to numeric
+
+# Current health expenditure (% of GDP) Graphic
+
+Health_GDP %>%
+  mutate(Country = fct_reorder(Country, `Current%ofGDP2018`)) %>%
+  ggplot(aes(x = Country, y = `Current%ofGDP2018`)) +
+  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Current%ofGDP2018`), color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 1.5, 0.8)) +
+  geom_point(color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 4.2, 2.5)) +
+  coord_flip() +
+  theme_elegante() +
+  xlab("Country") +
+  ylab("% of GDP") +
+  labs(title = paste("Current health expenditure (% of GDP)"), 
+       caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
+       subtitle = paste0("2018")) +
+  geom_text(aes(label = Health_GDP$`Current%ofGDP2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.5) +
+  theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
+  theme(axis.title.y=element_blank(),
+        legend.position = "none") +
+  scale_y_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14, 16))
