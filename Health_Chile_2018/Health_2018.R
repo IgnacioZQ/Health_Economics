@@ -115,7 +115,7 @@ Health_Phys %>%
   labs(title = paste("Physicians every 1,000 people by country"), 
        caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
        subtitle = paste0("Situation of Chile and the world\n", "2013 - 2018" )) +
-    geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
+    geom_text(aes(label = Health_Phys$`Physiciansper1,000people2013-18`), hjust = -.5, nudge_x = 0, color = "gray46", size = 3.1) +
   theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
   theme(axis.title.y=element_blank(),
         legend.position = "none")
