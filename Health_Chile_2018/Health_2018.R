@@ -92,14 +92,12 @@ Health <- read_excel("Health_2.xlsx")
 Health_Phys <- Health %>%
   select(Country, `Physiciansper1,000people2013-18`) %>%
   filter(`Physiciansper1,000people2013-18` != "..", Country %in%
-           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
-             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
-             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
-             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
-             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
-             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India", "Venezuela, RB",
-             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
-             "Russian Federation", "Denmark", "Hungary")) %>%
+           c("Cuba", "Greece", "Austria", "Uruguay", "Israel",
+             "Switzerland", "Germany", "Argentina", "Italy", "Denmark", "Russian Federation",
+             "Spain", "Finland", "Australia", "Europe & Central Asia", "France", "Costa Rica", "United Kingdom", "Canada",
+             "Chile", "United States", "North America", "Japan", "Mexico",
+             "Latin America & Caribbean", "Brazil", "China", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Peru")) %>%
   arrange(`Physiciansper1,000people2013-18`) # Reorder the data
 
 Health_Phys$`Physiciansper1,000people2013-18` <- as.numeric(as.character(Health_Phys$`Physiciansper1,000people2013-18`)) #Transform column character to numeric
@@ -134,14 +132,12 @@ Health_Phys %>%
 Health_Nur <- Health %>%
   select(Country, `Nursesandmidwivesper1,000people`) %>%
   filter(`Nursesandmidwivesper1,000people`!= "..", Country %in%
-           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
-             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
-             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
-             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
-             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
-             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
-             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
-             "Russian Federation", "Denmark", "Hungary")) %>%
+           c("Cuba", "Greece", "Austria", "Uruguay", "Israel",
+             "Switzerland", "Germany", "Argentina", "Italy", "Denmark", "Russian Federation",
+             "Spain", "Finland", "Australia", "Europe & Central Asia", "France", "Costa Rica", "United Kingdom", "Canada",
+             "Chile", "United States", "North America", "Japan", "Mexico",
+             "Latin America & Caribbean", "Brazil", "China", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Peru")) %>%
   arrange(`Nursesandmidwivesper1,000people`) # Reorder the data
 
 Health_Nur$`Nursesandmidwivesper1,000people` <- as.numeric(as.character(Health_Nur$`Nursesandmidwivesper1,000people`)) #Transform column character to numeric
@@ -181,14 +177,12 @@ Health_Nur %>%
 Health_Out <- Health %>%
   select(Country, `Out of pocket%ofcurrent2018`) %>%
   filter(`Out of pocket%ofcurrent2018`!= "..", Country %in%
-           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
-             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
-             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
-             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
-             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
-             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
-             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
-             "Russian Federation", "Denmark", "Hungary")) %>%
+           c("Cuba", "Greece", "Austria", "Uruguay", "Israel",
+             "Switzerland", "Germany", "Argentina", "Italy", "Denmark", "Russian Federation",
+             "Spain", "Finland", "Australia", "Europe & Central Asia", "France", "Costa Rica", "United Kingdom", "Canada",
+             "Chile", "United States", "North America", "Japan", "Mexico",
+             "Latin America & Caribbean", "Brazil", "China", "East Asia & Pacific",
+             "Bolivia", "Panama", "World", "Peru")) %>%
   arrange(`Out of pocket%ofcurrent2018`) # Reorder the data
 
 Health_Out$`Out of pocket%ofcurrent2018` <- as.numeric(as.character(Health_Out$`Out of pocket%ofcurrent2018`)) #Transform column character to numeric
@@ -211,48 +205,3 @@ Health_Out %>%
   theme(axis.title.y=element_blank(),
         legend.position = "none") +
   scale_y_continuous(breaks = c(10, 20, 30, 40, 50, 60, 70))
-
-# Current health expenditure (% of GDP) ----
-
-# Long definition
-# Level of current health expenditure expressed as a percentage of GDP.
-# Estimates of current health expenditures include healthcare goods and services
-# consumed during each
-# year. This indicator does not include capital health expenditures such as
-# buildings, machinery, IT and stocks of vaccines for emergency or outbreaks.
-
-# Current health expenditure (% of GDP) Data
-
-Health_GDP <- Health %>%
-  select(Country, `Current%ofGDP2018`) %>%
-  filter(`Current%ofGDP2018`!= "..", Country %in%
-           c("Argentina", "Chile", "Cuba", "Uruguay", "Italy", "Spain", "Finland",
-             "Denmark", "Austrlia", "New Zealand", "Europe & Central Asia", "Belgium",
-             "Croatia", "Norway", "Costa Rica", "United Kingdom", "North America",
-             "Canada", "Japan", "Mexico", "Poland", "Latin America & Caribbean",
-             "Brazil", "Colombia", "China", "Ecuador", "East Asia & Pacific",
-             "Bolivia", "Panama", "World", "Paraguay", "Peru", "India",
-             "United States", "Greece", "Austria", "Portugal", "Israel", "Germany",
-             "Russian Federation", "Denmark", "Hungary")) %>%
-  arrange(`Current%ofGDP2018`) # Reorder the data
-
-Health_GDP$`Current%ofGDP2018` <- as.numeric(as.character(Health_GDP$`Current%ofGDP2018`)) #Transform column character to numeric
-
-# Current health expenditure (% of GDP) Graphic
-
-Health_GDP %>%
-  mutate(Country = fct_reorder(Country, `Current%ofGDP2018`)) %>%
-  ggplot(aes(x = Country, y = `Current%ofGDP2018`)) +
-  geom_segment(aes(x = Country, xend = Country, y = 0, yend = `Current%ofGDP2018`), color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 1.1, 0.8)) +
-  geom_point(color = ifelse(Health_GDP$Country %in% c("Chile"), "sienna3", "gray58"), size = ifelse(Health_GDP$Country %in% c("Chile"), 3.4, 2)) +
-  coord_flip() +
-  theme_elegante() +
-  ylab("% of GDP") +
-  labs(title = paste("Current health expenditure (% of GDP)"), 
-       caption = "World Health Organization's Global Health Workforce Statistics, OECD, supplemented by country data.",
-       subtitle = paste0("Situation of Chile and the world\n", "2018" )) +
-  geom_text(aes(label = Health_GDP$`Current%ofGDP2018`), hjust = -.8, nudge_x = 0, color = "gray46", size = 3.1) +
-  theme(panel.grid.major.y = element_blank(), panel.border = element_blank(), axis.ticks.y = element_blank()) +
-  theme(axis.title.y=element_blank(),
-        legend.position = "none") +
-  scale_y_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14, 16))
