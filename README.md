@@ -1,6 +1,6 @@
 ### Health_Economics
 
-## Principal page: https://ignacio-zamora.gitbook.io/ignaciozq/
+## Principal page: https://ignacio-zamora.gitbook.io/ignaciozq/health-economics
 
 This repository is intended for data related to the Health Economy.
 
