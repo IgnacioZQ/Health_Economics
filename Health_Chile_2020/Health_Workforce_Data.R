@@ -3,6 +3,7 @@
 library(tidyverse)
 library(readr)
 library(ggrepel)
+library(printr)
 
 #### Theme ----
 
@@ -90,15 +91,86 @@ Dentists_Chile <- Dentists %>%
 
 Dentists_Chile %>%
   ggplot(mapping = aes(x = Period, y = First.Tooltip, color = ï..Location)) +
-  geom_line(size = 1.2) +
-  geom_point(size = 4) +
-  geom_point(size = 2, color = "white") +
+  geom_line(size = 1.2, color = "darkturquoise") +
+  geom_point(size = 4, color = "darkslategray3") +
+  geom_point(size = 1.8, color = "white") +
   labs(title = paste("Dentists available per 10,000 population"), 
-       subtitle = paste0("Chile") , 
-       caption = "Fuente: OMS", 
+       subtitle = paste0("Chile 2002 - 2018") , 
+       caption = "OMS", 
        y = "Dentists per 10,000 population", 
        x = "Year") +
   theme_elegante() +
-  geom_text(aes(label = First.Tooltip, digits = 1, big.mark = ','), vjust = -1, hjust = 0, alpha = 0.8, size = 2.5, angle = 75, color = "black") +
   scale_x_continuous(breaks = c(2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018)) +
   scale_y_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14))
+
+### Upload and handling Data (Doctors) ----
+
+Doctors <- read.csv("https://raw.githubusercontent.com/IgnacioZQ/Health_Economics/main/Health_Chile_2020/Health_Workforce/Doctors.xls")
+
+Doctors_Chile <- Doctors %>%
+  select(ï..Location, Period, First.Tooltip) %>%
+  filter(ï..Location == "Chile", Period >= 2002)
+
+# Graphic
+
+Doctors_Chile %>%
+  ggplot(mapping = aes(x = Period, y = First.Tooltip, color = ï..Location)) +
+  geom_line(size = 1.2, color = "deepskyblue3") +
+  geom_point(size = 4, color = "deepskyblue4") +
+  geom_point(size = 1.8, color = "white") +
+  labs(title = paste("Doctors available per 10,000 population"), 
+       subtitle = paste0("Chile 2002 - 2018") , 
+       caption = "OMS", 
+       y = "Doctors per 10,000 population", 
+       x = "Year") +
+  theme_elegante() +
+  scale_x_continuous(breaks = c(2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018)) +
+  scale_y_continuous(breaks = c(5, 10, 15, 20, 25))
+
+### Upload and handling Data (Nursing_and_Midwife) ----
+
+Nursing_and_Midwife <- read.csv("https://raw.githubusercontent.com/IgnacioZQ/Health_Economics/main/Health_Chile_2020/Health_Workforce/Nursing_and_Midwife.xls")
+
+Nursing_and_Midwife_Chile <- Nursing_and_Midwife %>%
+  select(ï..Location, Period, First.Tooltip) %>%
+  filter(ï..Location == "Chile", Period >= 2002)
+
+# Graphic
+
+Nursing_and_Midwife_Chile %>%
+  ggplot(mapping = aes(x = Period, y = First.Tooltip, color = ï..Location)) +
+  geom_line(size = 1.2, color = "firebrick1") +
+  geom_point(size = 4, color = "firebrick3") +
+  geom_point(size = 1.8, color = "white") +
+  labs(title = paste("Nursing and Midwife available per 10,000 population"), 
+       subtitle = paste0("Chile 2002 - 2018") , 
+       caption = "OMS", 
+       y = "Nursing and Midwife per 10,000 population", 
+       x = "Year") +
+  theme_elegante() +
+  scale_x_continuous(breaks = c(2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018)) +
+  scale_y_continuous(breaks = c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120))
+
+### Upload and handling Data (Pharmacists) ----
+
+Pharmacists <- read.csv("https://raw.githubusercontent.com/IgnacioZQ/Health_Economics/main/Health_Chile_2020/Health_Workforce/Pharmacists.xls")
+
+Pharmacists_Chile <- Pharmacists %>%
+  select(ï..Location, Period, First.Tooltip) %>%
+  filter(ï..Location == "Chile", Period >= 2002)
+
+# Graphic
+
+Pharmacists_Chile %>%
+  ggplot(mapping = aes(x = Period, y = First.Tooltip, color = ï..Location)) +
+  geom_line(size = 1.2, color = "springgreen3") +
+  geom_point(size = 4, color = "springgreen4") +
+  geom_point(size = 1.8, color = "white") +
+  labs(title = paste("Pharmacists available per 10,000 population"), 
+       subtitle = paste0("Chile 2010 - 2018") , 
+       caption = "OMS", 
+       y = "Pharmacists per 10,000 population", 
+       x = "Year") +
+  theme_elegante() +
+  scale_x_continuous(breaks = c(2010, 2012, 2014, 2016, 2018)) +
+  scale_y_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8))
